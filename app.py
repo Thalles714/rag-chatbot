@@ -1,11 +1,20 @@
+from pathlib import Path
+from dotenv import load_dotenv
+
 from src.rag.retriever import get_context
 from src.rag.generator import generate_answer
 from src.rag.prompt import build_prompt
 
 
 def main():
+    load_dotenv(Path(__file__).resolve().parent / ".env")
     while True:
-        question = input("\nPergunta (ou 'sair'): ")
+        try:
+            question = input("\nPergunta (ou 'sair'): ").strip()
+        except (EOFError, KeyboardInterrupt):
+            break
+        if not question:
+            continue
 
         if question.lower() == "sair":
             break
